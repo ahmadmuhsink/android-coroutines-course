@@ -14,6 +14,7 @@ import com.techyourchance.coroutines.R
 import com.techyourchance.coroutines.common.BaseFragment
 import com.techyourchance.coroutines.common.ThreadInfoLogger
 import com.techyourchance.coroutines.home.ScreenReachableFromHome
+import kotlin.concurrent.thread
 
 class BackgroundThreadDemoFragment : BaseFragment() {
 
@@ -43,7 +44,7 @@ class BackgroundThreadDemoFragment : BaseFragment() {
 
         updateRemainingTime(benchmarkDurationSeconds)
 
-        Thread {
+        thread {
             logThreadInfo("benchmark started")
 
             val stopTimeNano = System.nanoTime() + benchmarkDurationSeconds * 1_000_000_000L
@@ -58,9 +59,7 @@ class BackgroundThreadDemoFragment : BaseFragment() {
             Handler(Looper.getMainLooper()).post {
                 Toast.makeText(requireContext(), "$iterationsCount", Toast.LENGTH_SHORT).show()
             }
-
-        }.start()
-
+        }
     }
 
     private fun updateRemainingTime(remainingTimeSeconds: Int) {
