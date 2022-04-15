@@ -1,24 +1,24 @@
 package com.techyourchance.coroutines.demonstrations.structuredconcurrency.java;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigInteger;
-
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.*;
 
 public class FibonacciUseCaseTest {
 
     FibonacciUseCase SUT;
 
     @Before
-    public void setup() throws Exception {
+    public void setup() {
         SUT = new FibonacciUseCase();
     }
 
     @Test
-    public void computeFibonacci_0_returns0() throws Exception {
+    public void computeFibonacci_0_returns0() {
         // Arrange
         // Act
         BigInteger result = SUT.computeFibonacci(0);

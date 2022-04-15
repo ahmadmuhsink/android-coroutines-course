@@ -20,14 +20,9 @@ public class FibonacciUseCaseAsyncUiThreadPosterTest {
     ThreadPostersTestDouble mThreadPostersTestDouble;
 
     @Before
-    public void setup() throws Exception {
+    public void setup() {
         mThreadPostersTestDouble = new ThreadPostersTestDouble();
-        mCallback = new FibonacciUseCaseAsyncUiThreadPoster.Callback() {
-            @Override
-            public void onFibonacciComputed(BigInteger result) {
-                lastResult = result;
-            }
-        };
+        mCallback = result -> lastResult = result;
         SUT = new FibonacciUseCaseAsyncUiThreadPoster(
                 mThreadPostersTestDouble.getBackgroundTestDouble(),
                 mThreadPostersTestDouble.getUiTestDouble()

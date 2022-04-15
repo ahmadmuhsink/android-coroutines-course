@@ -16,13 +16,8 @@ public class FibonacciUseCaseAsyncUiTest {
     BigInteger lastResult = null;
 
     @Before
-    public void setup() throws Exception {
-        mCallback = new FibonacciUseCaseAsyncUi.Callback() {
-            @Override
-            public void onFibonacciComputed(BigInteger result) {
-                lastResult = result;
-            }
-        };
+    public void setup() {
+        mCallback = result -> lastResult = result;
         SUT = new FibonacciUseCaseAsyncUi();
     }
 
