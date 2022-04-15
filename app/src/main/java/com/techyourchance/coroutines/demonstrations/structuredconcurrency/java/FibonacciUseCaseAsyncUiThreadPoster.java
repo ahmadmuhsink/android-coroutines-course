@@ -14,7 +14,7 @@ class FibonacciUseCaseAsyncUiThreadPoster {
 
 
     public interface Callback {
-        public void onFibonacciComputed(BigInteger result);
+        void onFibonacciComputed(BigInteger result);
     }
 
     private final BackgroundThreadPoster mBackgroundThreadPoster;
@@ -26,12 +26,9 @@ class FibonacciUseCaseAsyncUiThreadPoster {
     }
 
     public void computeFibonacci(int index, Callback callback) {
-        mBackgroundThreadPoster.post(new Runnable() {
-            @Override
-            public void run() {
-                BigInteger result = computeFibonacciBg(index);
-                notifyResult(result, callback);
-            }
+        mBackgroundThreadPoster.post(() -> {
+            BigInteger result = computeFibonacciBg(index);
+            notifyResult(result, callback);
         });
     }
 
@@ -48,11 +45,6 @@ class FibonacciUseCaseAsyncUiThreadPoster {
     }
 
     private void notifyResult(BigInteger result, Callback callback) {
-        mUiThreadPoster.post(new Runnable() {
-            @Override
-            public void run() {
-                callback.onFibonacciComputed(result);
-            }
-        });
+        mUiThreadPoster.post(() -> callback.onFibonacciComputed(result));
     }
 }

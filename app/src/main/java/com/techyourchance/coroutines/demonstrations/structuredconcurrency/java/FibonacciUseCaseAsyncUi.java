@@ -10,19 +10,15 @@ import androidx.annotation.WorkerThread;
 class FibonacciUseCaseAsyncUi {
 
     public interface Callback {
-        public void onFibonacciComputed(BigInteger result);
+        void onFibonacciComputed(BigInteger result);
     }
 
     public void computeFibonacci(int index, Callback callback) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                BigInteger result = computeFibonacciBg(index);
-                notifyResult(result, callback);
-            }
+        new Thread(() -> {
+            BigInteger result = computeFibonacciBg(index);
+            notifyResult(result, callback);
         }).start();
     }
-
 
     @WorkerThread
     private BigInteger computeFibonacciBg(int index) {
@@ -36,11 +32,6 @@ class FibonacciUseCaseAsyncUi {
     }
 
     private void notifyResult(BigInteger result, Callback callback) {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                callback.onFibonacciComputed(result);
-            }
-        });
+        new Handler(Looper.getMainLooper()).post(() -> callback.onFibonacciComputed(result));
     }
 }

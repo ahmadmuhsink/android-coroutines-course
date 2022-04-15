@@ -1,22 +1,19 @@
 package com.techyourchance.coroutines.demonstrations.structuredconcurrency.java;
 
-import java.math.BigInteger;
-
 import androidx.annotation.WorkerThread;
+
+import java.math.BigInteger;
 
 class FibonacciUseCaseAsync {
 
     public interface Callback {
-        public void onFibonacciComputed(BigInteger result);
+        void onFibonacciComputed(BigInteger result);
     }
 
     public void computeFibonacci(int index, Callback callback) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                BigInteger result = computeFibonacciBg(index);
-                callback.onFibonacciComputed(result);
-            }
+        new Thread(() -> {
+            BigInteger result = computeFibonacciBg(index);
+            callback.onFibonacciComputed(result);
         }).start();
     }
 
